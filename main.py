@@ -1,20 +1,24 @@
-import numpy as np
+#import numpy as np
 import pandas as pd
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 crime_rate_spain_df = pd.read_csv("crime_rate_Spain.csv")
 #print(crime_rate_spain_df)
 
-df = crime_rate_spain_df[["Location", "Crime"]]
-#df2 = df[df["Year"] == "96960"]
-#print(df2)
+gbo3 = crime_rate_spain_df.groupby(["Year", "Crime"])
+gbo4 = gbo3[["Total cases"]].sum()
+print(gbo4)
+
+years = [2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019, 2020 , 2020, 2020 , 2020
+         , 2020 , 2020, 2020 , 2020, 2020 , 2020, 2020 , 2020,2021,2021,2021,2021,2021,2021,2021,2021,
+         2021,2021,2021,2021,2021,2021,2021,2021]
+
+#years = gbo4["Year"]
+#crimes = gbo4["Crime"]
+total_cases = gbo4["Total cases"]
+
+plt.plot(years, total_cases, "or")
+plt.show()
 
 
-df3 = df[df["Location"] == "Barcelona"]
-print(df3)
 
-df4 = df[df["Crime"] == "Theft"]
-print(df4)
-
-gb_year = crime_rate_spain_df.groupby("Location")
-print(gb_year.mean())
