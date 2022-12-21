@@ -5,22 +5,32 @@ import matplotlib.pyplot as plt
 crime_rate_spain_df = pd.read_csv("crime_rate_Spain.csv")
 #print(crime_rate_spain_df)
 
-''''
 gbo3 = crime_rate_spain_df.groupby(["Year", "Crime"])
 gbo4 = gbo3[["Total cases"]].sum()
 print(gbo4)
 
-years = [2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019,2019, 2020 , 2020, 2020 , 2020
-         , 2020 , 2020, 2020 , 2020, 2020 , 2020, 2020 , 2020,2021,2021,2021,2021,2021,2021,2021,2021,
-         2021,2021,2021,2021,2021,2021,2021,2021]
+years_set = set(crime_rate_spain_df["Year"])
+years = list(years_set)
+print(years)
 
-#years = gbo4["Year"]
-#crimes = gbo4["Crime"]
+crimes_set = set(crime_rate_spain_df["Crime"])
+crimes = list(crimes_set)
+print(crimes)
+
 total_cases = gbo4["Total cases"]
 
-plt.plot(years, total_cases, "or")
+plt.plot(years, total_cases)
 plt.show()
-'''
+
+#for crime in crimes:
+ #   plt.plot(years, total_cases)
+ #   plt.show()
+
+#fig, ax = plt.subplots()
+#startx, endx = min(years), max(years)
+#starty, endy = 0, 100
+
+
 '''
 labels = crime_rate_spain_df["Location"]
 Crimes_count = crime_rate_spain_df["Total cases"]
@@ -39,6 +49,7 @@ fig.tight_layout()
 plt.show()
 '''
 
+'''
 crime_rate_df = crime_rate_spain_df[["Year", "Location", "Crime", "Total cases"]]
 city_df0 = crime_rate_df[crime_rate_df["Location"] == "Barcelona"]
 city_df01 = city_df0[city_df0["Year"] == 2020]
@@ -52,6 +63,7 @@ flattened_student_count = crime_nu_of_cases.flatten()
 
 fig, ax = plt.subplots()
 ax.pie(aggregated_student_count, radius=1, labels=labels)
-#ax.legend(loc='best')
+ax.legend(loc='best')
 ax.set_title('Crime Distribution per total crime in the city')
 plt.show()
+'''
