@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 crime_spain_df = pd.read_csv("crime_rate_spain.csv")
-
+sorted_crime_df = crime_spain_df.sort_values(["Location", "Year", "Crime"])
 df2 = crime_spain_df[["Year", "Crime", "Location", "Total cases"]].groupby(["Year", "Crime"])
 df3 = crime_spain_df[["Year", "Crime", "Location", "Total cases"]].groupby("Crime")
 df4 = df2[["Total cases"]].sum()
@@ -16,7 +16,7 @@ def trend_chart(crime_case):
     plt.plot(year, total_cases)
     plt.xlabel('Years')
     plt.ylabel('Total cases')
-    plt.title(crime_spain_df.iloc[i, 2])
+    plt.title(crime_spain_df.iloc[crime_case-1, 2])
     return plt.show()
 
 
@@ -41,7 +41,7 @@ if reader_plot == 1:
     i = 0
     for crime in crime:
         if i in range(0, 15):
-            print(i+1, "-", crime_spain_df.iloc[i, 2])
+            print(i+1, "-", sorted_crime_df.iloc[i, 2])
         i = i + 1
     crime_case = int(input("Please select the type of crime you want to plot: "))
     if crime_case <= 14:
@@ -52,7 +52,7 @@ if reader_plot == 1:
 elif reader_plot == 2:
     user_selection = input("type a name pf spanish city beginning with capital letter:  ")
     user_year = int(input("Please select a year from (2019 , 2020 or 2021):  "))
-    if user_year not in range(2019, 2020, 2021):
+    if user_year not in range(2019, 2022):
         print("not available year statistics")
     else:
         print(pie_chart(user_selection))
