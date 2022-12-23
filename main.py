@@ -1,59 +1,54 @@
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
-crime_rate_spain_df = pd.read_csv("crime_rate_Spain.csv")
-#print(crime_rate_spain_df)
+crime_spain_df = pd.read_csv("crime_rate_spain.csv")
 
-gbo3 = crime_rate_spain_df.groupby(["Year", "Crime"])
-gbo4 = gbo3[["Total cases"]].sum()
-print(gbo4)
-
-years_set = set(crime_rate_spain_df["Year"])
-years = list(years_set)
-print(years)
-
-crimes_set = set(crime_rate_spain_df["Crime"])
-crimes = list(crimes_set)
-print(crimes)
-
-total_cases = gbo4["Total cases"]
-
-plt.plot(years, total_cases)
-plt.show()
-
-#for crime in crimes:
- #   plt.plot(years, total_cases)
- #   plt.show()
-
-#fig, ax = plt.subplots()
-#startx, endx = min(years), max(years)
-#starty, endy = 0, 100
+df2 = crime_spain_df[["Year", "Crime", "Location", "Total cases"]].groupby(["Year", "Crime"])
+df3 = crime_spain_df[["Year", "Crime", "Location", "Total cases"]].groupby("Crime")
+df4 = df2[["Total cases"]].sum()
+crime = df3["Crime"]
 
 
-'''
-labels = crime_rate_spain_df["Location"]
-Crimes_count = crime_rate_spain_df["Total cases"]
+def trend_chart(crime_case):
+    year = list(set(crime_spain_df["Year"]))
+    total_cases = (df4.iloc[crime_case-1, 0], df4.iloc[13 + crime_case, 0], df4.iloc[27 + crime_case, 0])
+    plt.plot(year, total_cases)
+    plt.xlabel('Years')
+    plt.ylabel('Total cases')
+    plt.title(crime_spain_df.iloc[i, 2])
+    return plt.show()
 
-x = np.arange(len(labels))
-width = 0.25
-fig, ax = plt.subplots()
-ax.bar(x-width/2, male_count, width, label='Male', color = "red")
-ax.bar(x+width/2, female_count, width, label='Female', color = "blue")
-ax.set_ylabel('PPU Students')
-ax.set_title('Students per College')
-ax.set_xticks(x)
-ax.set_xticklabels(labels, rotation='vertical')
-ax.legend()
-fig.tight_layout()
-plt.show()
-'''
 
-'''
-crime_rate_df = crime_rate_spain_df[["Year", "Location", "Crime", "Total cases"]]
+print(" 1-Tender plot", "\n", "2-Pie Chart", "\n", "3-Bar Chart")
+reader_plot = int(input("Please select the type of chart you want to plot: "))
+
+if reader_plot == 1:
+    i = 0
+    for crime in crime:
+        if i in range(0, 15):
+            print(i+1, "-", crime_spain_df.iloc[i, 2])
+        i = i + 1
+    crime_case = int(input("Please select the type of crime you want to plot: "))
+    if crime_case <= 14:
+        print(trend_chart(crime_case))
+    else:
+        print("Wrong case number")
+
+elif reader_plot == 2:
+    print("plot 2")
+elif reader_plot == 3:
+    print("plot 3")
+else:
+    reader_plot = int(input("Please select the type of chart you want to plot: "))
+
+
+
+
+
+crime_rate_df = crime_spain_df[["Year", "Location", "Crime", "Total cases"]]
 city_df0 = crime_rate_df[crime_rate_df["Location"] == "Barcelona"]
 city_df01 = city_df0[city_df0["Year"] == 2020]
-#city_df = city_df01.iloc[0:6:1]
 
 labels = city_df01["Crime"]
 crime_nu_of_cases = np.array(city_df01[["Total cases"]])
@@ -66,4 +61,3 @@ ax.pie(aggregated_student_count, radius=1, labels=labels)
 ax.legend(loc='best')
 ax.set_title('Crime Distribution per total crime in the city')
 plt.show()
-'''
