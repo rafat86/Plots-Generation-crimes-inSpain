@@ -20,6 +20,20 @@ def trend_chart(crime_case):
     return plt.show()
 
 
+def pie_chart(user_selection):
+    crime_rate_df = crime_spain_df[["Year", "Location", "Crime", "Total cases"]]
+    city_df0 = crime_rate_df[crime_rate_df["Location"] == user_selection]
+    city_df01 = city_df0[city_df0["Year"] == user_year]
+    labels = city_df01["Crime"]
+    crime_nu_of_cases = np.array(city_df01[["Total cases"]])
+    selected_crime = crime_nu_of_cases.sum(axis=1)
+    fig, ax = plt.subplots()
+    ax.pie(selected_crime, radius=1, labels=None)
+    ax.legend(labels=labels, prop={'size': 10}, bbox_to_anchor=(1, .5, .07, .06))
+    ax.set_title('Crime Distribution per total crime in the city')
+    return plt.show()
+
+
 print(" 1-Tender plot", "\n", "2-Pie Chart", "\n", "3-Bar Chart")
 reader_plot = int(input("Please select the type of chart you want to plot: "))
 
@@ -36,28 +50,14 @@ if reader_plot == 1:
         print("Wrong case number")
 
 elif reader_plot == 2:
-    print("plot 2")
+    user_selection = input("type a name pf spanish city beginning with capital letter:  ")
+    user_year = int(input("Please select a year from (2019 , 2020 or 2021):  "))
+    if user_year not in range(2019, 2020, 2021):
+        print("not available year statistics")
+    else:
+        print(pie_chart(user_selection))
+
 elif reader_plot == 3:
     print("plot 3")
 else:
     reader_plot = int(input("Please select the type of chart you want to plot: "))
-
-
-
-
-
-crime_rate_df = crime_spain_df[["Year", "Location", "Crime", "Total cases"]]
-city_df0 = crime_rate_df[crime_rate_df["Location"] == "Barcelona"]
-city_df01 = city_df0[city_df0["Year"] == 2020]
-
-labels = city_df01["Crime"]
-crime_nu_of_cases = np.array(city_df01[["Total cases"]])
-
-aggregated_student_count = crime_nu_of_cases.sum(axis=1)
-flattened_student_count = crime_nu_of_cases.flatten()
-
-fig, ax = plt.subplots()
-ax.pie(aggregated_student_count, radius=1, labels=labels)
-ax.legend(loc='best')
-ax.set_title('Crime Distribution per total crime in the city')
-plt.show()
