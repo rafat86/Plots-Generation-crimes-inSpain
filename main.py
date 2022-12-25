@@ -12,11 +12,12 @@ crime = df3["Crime"]
 
 def trend_chart(case):
     year = list(set(crime_spain_df["Year"]))
-    total_cases = (df4.iloc[case-1, 0], df4.iloc[13 + case, 0], df4.iloc[27 + case, 0])
-    plt.plot(year, total_cases)
-    plt.xlabel('Years')
-    plt.ylabel('Total cases')
-    plt.title(sorted_crime_df.iloc[crime_case-1, 2])
+    total_cases = (df4.iloc[case - 1, 0], df4.iloc[13 + case, 0], df4.iloc[27 + case, 0])
+    fig_tend, ax_tend = plt.subplots()
+    ax_tend.set_xticks([2019, 2020, 2021])
+    ax_tend.set_yticks(total_cases)
+    ax_tend.set(xlabel='Years', ylabel='Total Cases', title=sorted_crime_df.iloc[case-1, 2] + ' Crime Trend')
+    ax_tend.plot(year, total_cases)
     return plt.show()
 
 
@@ -28,9 +29,9 @@ def pie_chart(location):
     crime_nu_of_cases = np.array(city_df01[["Total cases"]])
     selected_crime = crime_nu_of_cases.sum(axis=1)
     fig_pie, ax_ch = plt.subplots()
-    ax_ch.pie(selected_crime, radius=1, labels=None)
+    ax_ch.pie(selected_crime, radius=1, labels=None, autopct='%1.2f%%')
     ax_ch.legend(labels=labels, prop={'size': 10}, bbox_to_anchor=(1, .5, .07, .06))
-    ax_ch.set_title('Crime Distribution per total crime in the city')
+    ax_ch.set_title('Crime Distribution per total crime in ' + location + " in " + str(user_year))
     return plt.show()
 
 
@@ -42,7 +43,7 @@ def crime_count(year, city, crime_no):
     return count_crime
 
 
-print(" 1-Tender plot", "\n", "2-Pie Chart", "\n", "3-Bar Chart")
+print(" 1-Trend plot", "\n", "2-Pie Chart", "\n", "3-Bar Chart")
 reader_plot = int(input("Please select the type of chart you want to plot: "))
 
 if reader_plot == 1:
@@ -90,7 +91,7 @@ elif reader_plot == 3:
     second_crime = sorted_crime_df.iloc[reader_crime_2-1, 2]
     third_crime = sorted_crime_df.iloc[reader_crime_3-1, 2]
 
-    reader_year = int(input("select a year (2019, 2020, 2021:  "))
+    reader_year = int(input("select a year (2019, 2020, 2021):  "))
 
     city_labels = [reader_city_1, reader_city_2, reader_city_3, reader_city_4, reader_city_5]
 
@@ -112,6 +113,11 @@ elif reader_plot == 3:
                          crime_count(reader_year, reader_city_4, third_crime),
                          crime_count(reader_year, reader_city_5, third_crime)]
 
+    first_crime_count_array = np.array(first_crime_count)
+    second_crime_count_array = np.array(second_crime_count)
+    aux_crime_count_array = first_crime_count_array + second_crime_count_array
+    aux_crime_count_list = aux_crime_count_array.tolist()
+
     print(" 1-Three Separated column bar chart", "\n", "2-One column bar chart")
     reader_bar_choice = int(input("Please select bar chart type:  "))
 
@@ -122,24 +128,24 @@ elif reader_plot == 3:
         ax.bar(x-width, first_crime_count, width, label=first_crime, color="red")
         ax.bar(x+width, second_crime_count, width, label=second_crime, color="blue")
         ax.bar(x, third_crime_count, width, label=third_crime, color="green")
-        ax.set_ylabel('Crimes in Spain in')
-        ax.set_title('Number of crimes per city')
+        ax.set_ylabel('Number of crimes per city')
+        ax.set_title('Crimes in Spain in ' + str(reader_year))
         ax.set_xticks(x)
-        ax.set_xticklabels(city_labels, rotation='vertical')
+        ax.set_xticklabels(city_labels, rotation='horizontal')
         ax.legend()
         fig.tight_layout()
         plt.show()
     if reader_bar_choice == 2:
         x = np.arange(len(city_labels))
-        width = 0.2
+        width = 0.25
         fig, ax = plt.subplots()
         ax.bar(x, first_crime_count, width, label=first_crime, color="red")
-        ax.bar(x, second_crime_count, width, label=second_crime, color="blue")
-        ax.bar(x, third_crime_count, width, label=third_crime, color="green")
-        ax.set_ylabel('Crimes in Spain in')
-        ax.set_title('Number of crimes per city')
+        ax.bar(x, second_crime_count, width, label=second_crime, bottom=first_crime_count, color="blue")
+        ax.bar(x, third_crime_count, width, label=third_crime, bottom=aux_crime_count_list, color="green")
+        ax.set_ylabel('Number of crimes per city')
+        ax.set_title('Crimes in Spain in ' + str(reader_year))
         ax.set_xticks(x)
-        ax.set_xticklabels(city_labels, rotation='vertical')
+        ax.set_xticklabels(city_labels, rotation='horizontal')
         ax.legend()
         fig.tight_layout()
         plt.show()
