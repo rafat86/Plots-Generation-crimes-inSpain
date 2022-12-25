@@ -112,16 +112,34 @@ elif reader_plot == 3:
                          crime_count(reader_year, reader_city_4, third_crime),
                          crime_count(reader_year, reader_city_5, third_crime)]
 
-    x = np.arange(len(city_labels))
-    width = 0.2
-    fig, ax = plt.subplots()
-    ax.bar(x-width, first_crime_count, width, label=first_crime, color="red")
-    ax.bar(x+width, second_crime_count, width, label=second_crime, color="blue")
-    ax.bar(x, third_crime_count, width, label=third_crime, color="green")
-    ax.set_ylabel('Crimes in Spain in')
-    ax.set_title('Number of crimes per city')
-    ax.set_xticks(x)
-    ax.set_xticklabels(city_labels, rotation='vertical')
-    ax.legend()
-    fig.tight_layout()
-    plt.show()
+    print(" 1-Three Separated column bar chart", "\n", "2-One column bar chart")
+    reader_bar_choice = int(input("Please select bar chart type:  "))
+
+    if reader_bar_choice == 1:
+        x = np.arange(len(city_labels))
+        width = 0.2
+        fig, ax = plt.subplots()
+        ax.bar(x-width, first_crime_count, width, label=first_crime, color="red")
+        ax.bar(x+width, second_crime_count, width, label=second_crime, color="blue")
+        ax.bar(x, third_crime_count, width, label=third_crime, color="green")
+        ax.set_ylabel('Crimes in Spain in')
+        ax.set_title('Number of crimes per city')
+        ax.set_xticks(x)
+        ax.set_xticklabels(city_labels, rotation='vertical')
+        ax.legend()
+        fig.tight_layout()
+        plt.show()
+    if reader_bar_choice == 2:
+        x = np.arange(len(city_labels))
+        width = 0.2
+        fig, ax = plt.subplots()
+        ax.bar(x, first_crime_count, width, label=first_crime, color="red")
+        ax.bar(x, second_crime_count, width, label=second_crime, color="blue")
+        ax.bar(x, third_crime_count, width, label=third_crime, color="green")
+        ax.set_ylabel('Crimes in Spain in')
+        ax.set_title('Number of crimes per city')
+        ax.set_xticks(x)
+        ax.set_xticklabels(city_labels, rotation='vertical')
+        ax.legend()
+        fig.tight_layout()
+        plt.show()
