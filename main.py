@@ -10,9 +10,9 @@ df4 = df2[["Total cases"]].sum()
 crime = df3["Crime"]
 
 
-def trend_chart(crime_case):
+def trend_chart(case):
     year = list(set(crime_spain_df["Year"]))
-    total_cases = (df4.iloc[crime_case-1, 0], df4.iloc[13 + crime_case, 0], df4.iloc[27 + crime_case, 0])
+    total_cases = (df4.iloc[case-1, 0], df4.iloc[13 + case, 0], df4.iloc[27 + case, 0])
     plt.plot(year, total_cases)
     plt.xlabel('Years')
     plt.ylabel('Total cases')
@@ -20,17 +20,17 @@ def trend_chart(crime_case):
     return plt.show()
 
 
-def pie_chart(user_selection):
+def pie_chart(location):
     crime_rate_df = crime_spain_df[["Year", "Location", "Crime", "Total cases"]]
-    city_df0 = crime_rate_df[crime_rate_df["Location"] == user_selection]
+    city_df0 = crime_rate_df[crime_rate_df["Location"] == location]
     city_df01 = city_df0[city_df0["Year"] == user_year]
     labels = city_df01["Crime"]
     crime_nu_of_cases = np.array(city_df01[["Total cases"]])
     selected_crime = crime_nu_of_cases.sum(axis=1)
-    fig, ax = plt.subplots()
-    ax.pie(selected_crime, radius=1, labels=None)
-    ax.legend(labels=labels, prop={'size': 10}, bbox_to_anchor=(1, .5, .07, .06))
-    ax.set_title('Crime Distribution per total crime in the city')
+    fig_pie, ax_ch = plt.subplots()
+    ax_ch.pie(selected_crime, radius=1, labels=None)
+    ax_ch.legend(labels=labels, prop={'size': 10}, bbox_to_anchor=(1, .5, .07, .06))
+    ax_ch.set_title('Crime Distribution per total crime in the city')
     return plt.show()
 
 
